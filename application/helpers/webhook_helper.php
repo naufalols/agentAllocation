@@ -17,7 +17,7 @@ function curl_qiscus_auth()
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array('email' => 'muh.naufal@hotmail.com','password' => 'Sampoerna9'),
+        CURLOPT_POSTFIELDS => array('email' => 'muh.naufal@hotmail.com','password' => 'inipassword'),
     ));
 
     $response = curl_exec($curl);
