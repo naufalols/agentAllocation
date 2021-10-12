@@ -6,34 +6,25 @@ class Webhook extends CI_Controller
     public function webhookGet()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        // $appId = $this->input->post('app_id');
-
-
-        if ($data['app_id'] == 'ext-74mgmdogujbegsga9') {
+        $token = $this->db->get_where('auth', array('app_id' => $data['app_id'] ));
+        if ($token->num_rows() == 0) {
             $auth = curl_qiscus_auth();
-            // $auth = json_decode($curl_auth);
-            print_r($auth);
-            die();
-            $newdata = array(
-                    'id'  => $auth['data']['user']['id'],
-                    'name'     => $auth['data']['user']['name'],
-                    'authentication_token' => $auth['data']['user']['authentication_token']
+            $newToken = array(
+                'content' => $auth,
+                'app_id' => $data['app_id']
             );
+            $this->db->insert('auth', $newToken);
+        }
+        
 
-            $this->session->set_userdata($newdata);
-
-
-            $candidatAgent = $data['candidate_agent'];
-            $email = $data['email'];
-            $isNewSession = $data['is_new_session'];
-            $isResolved = $data['is_resolved'];
-            $latestService = $data['latest_service'];
-            $name = $data['name'];
-            $roomId = $data['room_id'];
-            $source = $data['source'];
-        } else {
-            echo "gagal";
-        };
+        // $candidatAgent = $data['candidate_agent'];
+            // $email = $data['email'];
+            // $isNewSession = $data['is_new_session'];
+            // $isResolved = $data['is_resolved'];
+            // $latestService = $data['latest_service'];
+            // $name = $data['name'];
+            // $roomId = $data['room_id'];
+            // $source = $data['source'];
     }
 
     public function checkSession()
@@ -44,5 +35,16 @@ class Webhook extends CI_Controller
     public function destroySession()
     {
         $this->session->sess_destroy();
+    }
+
+    public function sessioning()
+    {
+        $newdata = array(
+                    'id'  => 123424,
+                    'name'     => "nama",
+                    'authentication_token' => "ceklist"
+            );
+
+        $this->session->set_userdata($newdata);
     }
 }
